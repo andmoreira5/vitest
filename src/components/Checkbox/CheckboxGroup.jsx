@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CheckboxGroup({ fruits }) {
+function CheckboxGroup({ fruits, disabledFruits = [] }) {
   const [selectedFruits, setSelectedFruits] = useState([]);
 
   const handleChange = (event) => {
@@ -9,7 +9,6 @@ function CheckboxGroup({ fruits }) {
       checked ? [...prev, value] : prev.filter((fruit) => fruit !== value)
     );
   };
-
   return (
     <div>
       {fruits.map((fruit) => (
@@ -19,6 +18,7 @@ function CheckboxGroup({ fruits }) {
             value={fruit}
             onChange={handleChange}
             checked={selectedFruits.includes(fruit)}
+            disabled={disabledFruits.includes(fruit)}
             data-testid={`checkbox-${fruit}`}
           />
           <label>{fruit}</label>

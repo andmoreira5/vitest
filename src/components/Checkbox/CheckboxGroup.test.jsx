@@ -8,7 +8,8 @@ import { fruits } from "../../data tests/dataTests.js";
 
 describe("Checkbox", () => {
   beforeEach(() => {
-    render(<CheckboxGroup fruits={fruits} />);
+    render(<CheckboxGroup fruits={fruits} disabledFruits={[fruits[0]]} />);
+    screen.debug();
   });
 
   test("Should be able to render all items on the screen", () => {
@@ -32,4 +33,12 @@ describe("Checkbox", () => {
       expect(item).not.toBeChecked();
     });
   });
+
+  // test("Should not allow selecting a disabled checkbox", () => {
+  //   const itemDisabledTest = screen.getByTestId(`checkbox-${fruits[0]}`);
+  //   expect(itemDisabledTest).toBeDisabled();
+  //   console.log(itemDisabledTest.disabled);
+  //   fireEvent.click(itemDisabledTest);
+  //   expect(itemDisabledTest).not.toBeChecked();
+  // });
 });
