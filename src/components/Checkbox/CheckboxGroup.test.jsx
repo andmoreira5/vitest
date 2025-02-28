@@ -4,7 +4,7 @@ import { describe } from "vitest";
 import CheckboxGroup from "./CheckboxGroup.jsx";
 import { test } from "vitest";
 import { expect } from "vitest";
-import { fruits } from "../../data tests/dataTests.js";
+import { fruits } from "../../data/dataTests.js";
 
 describe("Checkbox", () => {
   beforeEach(() => {

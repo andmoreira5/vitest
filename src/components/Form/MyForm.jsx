@@ -1,13 +1,9 @@
 import { useState } from "react";
+import { elementsForm } from "../../data/structure form.js";
 
 export default function MyForm() {
-  const elements = {
-    name: "",
-    email: "",
-  };
-
-  const [formData, setFormData] = useState(elements);
-  const [error, setError] = useState(elements);
+  const [formData, setFormData] = useState(elementsForm);
+  const [error, setError] = useState(elementsForm);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,18 +14,18 @@ export default function MyForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newErrors = { ...elements };
+    let newErrors = { ...elementsForm };
     let itIsError = false;
-    Object.keys(elements).forEach((el) => {
+    Object.keys(elementsForm).forEach((el) => {
       if (!formData[el]) {
         newErrors[el] = el.charAt(0).toUpperCase + el.split(1) + " is required";
         itIsError = true;
       }
       setError(newErrors);
       if (!itIsError) {
-        alert("Form submited successfully!");
+        console.log("Form Submitted", formData);
       } else {
-        alert("There is some empty element");
+        console.log("There is some empty element");
       }
     });
   };
@@ -39,6 +35,7 @@ export default function MyForm() {
       <div>
         <label htmlFor="name">Name:</label>
         <input
+          id="name"
           type="text"
           name="name"
           value={formData.name}
@@ -49,6 +46,7 @@ export default function MyForm() {
       <div>
         <label htmlFor="email">Email:</label>
         <input
+          id="email"
           type="email"
           name="email"
           value={formData.email}
