@@ -57,8 +57,40 @@ describe("Form", () => {
         expect.objectContaining(form)
       );
       // toHaveBeenCalledWith checks if it was called with the correct arguments.
+      // expect.objectContaining() checks if the items of the form are on the screen
     });
 
     consoleSpy.mockRestore(); //cleans the mock to not disturb the next tests
+  });
+
+  test("Not show error message after correcting input", async () => {
+    //verify that the error messages are presents in the document and verify if the error messages don't are in the document
+
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
+    await waitFor(() => {
+      Object.keys(elementsForm).forEach((el) => {
+        const errorMessage = screen.queryByText(
+          new RegExp(`${el} is required`, "i")
+        );
+        expect(errorMessage).toBeInTheDocument();
+      });
+    });
+
+    Object.keys(elementsForm).forEach((el) => {
+      const input = screen.getByLabelText(new RegExp(el, "i"));
+      fireEvent.change(input, { target: { value: form[el] } });
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
+    await waitFor(() => {
+      Object.keys(elementsForm).forEach((el) => {
+        const errorMessage = screen.queryByText(
+          new RegExp(`${el} is required`, "i")
+        );
+        expect(errorMessage).not.toBeInTheDocument();
+      });
+    });
   });
 });
