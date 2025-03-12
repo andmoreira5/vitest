@@ -1,11 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { beforeEach } from "vitest";
-import { describe } from "vitest";
+import { beforeEach, describe, test, expect } from "vitest";
 import MyForm from "./MyForm.jsx";
-import { test } from "vitest";
-import { expect } from "vitest";
 import { elementsForm } from "../../data/structure form.js";
 import { form } from "../../data/dataTests.js";
+import { vi } from "vitest";
 
 describe("Form", () => {
   beforeEach(() => {
@@ -14,7 +12,9 @@ describe("Form", () => {
 
   test("Renders form with the name and email fields", () => {
     Object.keys(elementsForm).forEach((el) => {
-      expect(screen.getAllByLabelText(new RegExp(el, "i")));
+      expect(
+        screen.getAllByLabelText(new RegExp(el, "i")).length
+      ).toBeGreaterThan(0);
     });
     expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
   });
@@ -29,27 +29,36 @@ describe("Form", () => {
 
   test("Shows error when submitting with empty fields", async () => {
     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
     await waitFor(() => {
       Object.keys(elementsForm).forEach((el) => {
-        expect(
-          screen.getByText(new RegExp(el + " is required", "i"))
-        ).toBeInTheDocument();
+        const errorMessage = screen.getByText(
+          new RegExp(`${el} is required`, "i")
+        );
+        expect(errorMessage).toBeInTheDocument();
       });
     });
   });
 
-  //   test("Submits the form successfully with valid inputs", async () => {
-  //     Object.keys(elementsForm).forEach((el) => {
-  //       fireEvent.change(
-  //         screen.getAllByLabelText(new RegExp(el, "i"), {
-  //           target: { value: form[el] },
-  //         })
-  //       );
-  //     });
-  //     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+  test("Submits the form successfully when all fields are filled", async () => {
+    const consoleSpy = vi.spyOn(console, "log"); //mock of console.log
 
-  //     await waitFor(() => {
-  //       expect(console.log).toHaveBeenCalledWith("Form Submitted", form);
-  //     });
-  //   });
+    Object.keys(elementsForm).forEach((el) => {
+      const input = screen.getByLabelText(new RegExp(el, "i")); //search an input with the label. "i" is case insensitive.
+      fireEvent.change(input, { target: { value: form[el] } }); //Change the value in input
+      expect(input.value).toBe(form[el]); //Verify if the value was typed correctly
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /submit/i }));
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith(
+        "Form Submitted",
+        expect.objectContaining(form)
+      );
+      // toHaveBeenCalledWith checks if it was called with the correct arguments.
+    });
+
+    consoleSpy.mockRestore(); //cleans the mock to not disturb the next tests
+  });
 });

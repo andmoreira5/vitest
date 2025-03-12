@@ -2,10 +2,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { beforeEach } from "vitest";
 import { describe } from "vitest";
 import RadioGroup from "./RadioGroup.jsx";
-import { seasons } from "../../data tests/dataTests.js";
 import { expect } from "vitest";
 import { test } from "vitest";
 import { vi } from "vitest";
+import { seasons } from "../../data/dataTests.js";
 
 describe("RadioGroup", () => {
   let handleChange;

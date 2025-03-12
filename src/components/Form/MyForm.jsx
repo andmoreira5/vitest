@@ -3,7 +3,7 @@ import { elementsForm } from "../../data/structure form.js";
 
 export default function MyForm() {
   const [formData, setFormData] = useState(elementsForm);
-  const [error, setError] = useState(elementsForm);
+  const [error, setError] = useState({});
 
   const handleChange = (e) => {
     setFormData({
@@ -14,20 +14,24 @@ export default function MyForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newErrors = { ...elementsForm };
+    let newErrors = {};
     let itIsError = false;
+
     Object.keys(elementsForm).forEach((el) => {
       if (!formData[el]) {
-        newErrors[el] = el.charAt(0).toUpperCase + el.split(1) + " is required";
+        newErrors[el] =
+          el.charAt(0).toUpperCase() + el.slice(1) + " is required";
         itIsError = true;
       }
-      setError(newErrors);
-      if (!itIsError) {
-        console.log("Form Submitted", formData);
-      } else {
-        console.log("There is some empty element");
-      }
     });
+
+    setError(newErrors); // ✅ Only update state once
+
+    if (!itIsError) {
+      console.log("Form Submitted", formData);
+    } else {
+      console.log("There is some empty element");
+    }
   };
 
   return (
@@ -38,7 +42,7 @@ export default function MyForm() {
           id="name"
           type="text"
           name="name"
-          value={formData.name}
+          value={formData.name || ""}
           onChange={handleChange}
         />
         {error.name && <span>{error.name}</span>}
@@ -49,7 +53,7 @@ export default function MyForm() {
           id="email"
           type="email"
           name="email"
-          value={formData.email}
+          value={formData.email || ""}
           onChange={handleChange}
         />
         {error.email && <span>{error.email}</span>}

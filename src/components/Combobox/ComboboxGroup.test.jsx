@@ -2,9 +2,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { beforeEach } from "vitest";
 import { describe } from "vitest";
 import ComboboxGroup from "./ComboboxGroup.jsx";
-import { animals } from "../../data tests/dataTests.js";
+
 import { test } from "vitest";
 import { expect } from "vitest";
+import { animals } from "../../data/dataTests.js";
 
 describe("Combobox", () => {
   beforeEach(() => {
