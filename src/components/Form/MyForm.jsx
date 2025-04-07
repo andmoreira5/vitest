@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { elementsForm } from "../../data/structure form.js";
+import { toast } from "react-toastify";
 
 export default function MyForm() {
   const [formData, setFormData] = useState(elementsForm);
@@ -30,7 +31,7 @@ export default function MyForm() {
     if (!itIsError) {
       console.log("Form Submitted", formData);
     } else {
-      console.log("There is some empty element");
+      toast.error("There is some empty element");
     }
   };
 

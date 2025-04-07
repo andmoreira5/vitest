@@ -4,10 +4,23 @@ import MyForm from "./MyForm.jsx";
 import { elementsForm } from "../../data/structure form.js";
 import { form } from "../../data/dataTests.js";
 import { vi } from "vitest";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 describe("Form", () => {
   beforeEach(() => {
-    render(<MyForm />);
+    render(
+      <>
+        <MyForm />
+        <ToastContainer />
+      </>
+    );
+  });
+
+  test("shows toast error when the required fields are empty", async () => {
+    fireEvent.click(screen.getByText("Submit"));
+    const toast = await screen.findByText("There is some empty element");
+    expect(toast).toBeInTheDocument();
   });
 
   test("Renders form with the name and email fields", () => {
