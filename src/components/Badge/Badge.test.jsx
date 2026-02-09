@@ -23,7 +23,7 @@ describe("Badge", () => {
   });
 
   test("Should render the Badge with the correct text", () => {
-    expect(badgeTestId).toHaveTextContent("Reprovado");
+    expect(badgeTestId).toHaveTextContent("Aprovado");
   });
 
   test("Ensure that the color and the text have been applied correctly", () => {
