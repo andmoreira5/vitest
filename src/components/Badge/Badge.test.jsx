@@ -11,7 +11,7 @@ describe("Badge", () => {
   // Setup the test before each test case
   beforeEach(() => {
     const { rerender } = render(
-      <Badge text="Aprovado" color="green" icon={FaCheckCircle} size="sm" />
+      <Badge text="Aprovado" color="green" icon={FaCheckCircle} size="sm" />,
     );
     badgeTestId = screen.getByTestId("badge");
     iconTestId = screen.getByTestId("badge-icon");
@@ -23,12 +23,12 @@ describe("Badge", () => {
   });
 
   test("Should render the Badge with the correct text", () => {
-    expect(badgeTestId).toHaveTextContent("Aprovado");
+    expect(badgeTestId).toHaveTextContent("Reprovado");
   });
 
   test("Ensure that the color and the text have been applied correctly", () => {
     expect(badgeTestId).toHaveClass(
-      "bg-green-200 text-green-800 text-xs px-2 py-1"
+      "bg-green-200 text-green-800 text-xs px-2 py-1",
     );
   });
 
