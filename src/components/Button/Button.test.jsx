@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
-import Button from "./button.jsx";
+import Button from "./Button.jsx";
 
 const buttonTestID = "button";
 const handleClick = vi.fn();
